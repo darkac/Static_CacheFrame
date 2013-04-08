@@ -1,4 +1,4 @@
-// Last modified: 2013-04-08 02:22:19
+// Last modified: 2013-04-08 19:30:50
  
 /**
  * @file: CacheFrame.cpp
@@ -64,7 +64,7 @@ void SCacheFrame::SC_Load(const char *name, MemoryDict *dict)
 		unsigned int length = dict->m_vecDict[termid].m_nFreq;
 		unsigned long long offset = dict->m_vecDict[termid].m_nFreq;
 		assert(len == length);
-		fseek(fDict, offset, SEEK_SET);
+		fseek(pIndex, offset, SEEK_SET);
 		size_t nread = fread(pStaticCache + GlobalOffset, sizeof(int), length, pIndex);
 		assert(static_cast<unsigned int>(nread) == length);
 		
