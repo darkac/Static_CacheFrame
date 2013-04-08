@@ -1,4 +1,4 @@
-// Last modified: 2013-04-08 02:20:16
+// Last modified: 2013-04-08 18:27:45
  
 /**
  * @file: hash.cpp
@@ -58,7 +58,7 @@ void HT_Add(unsigned int termid,
 	hashTable[slot]->next = hnode;
 }
 
-hashnode_t *getHashNode(unsigned int termid)
+hashnode_t *HT_GetNode(unsigned int termid)
 {
 	int slot = HashKey(termid);
 	hashnode_t *p = hashTable[slot];
@@ -71,9 +71,10 @@ hashnode_t *getHashNode(unsigned int termid)
 	}
 	return q;
 }
-
+/*
 int existInHash(unsigned int termid)
 {
 	hashnode_t *tmp = getHashNode(termid);
 	return (tmp != NULL) ? 1 : 0;
 }
+*/

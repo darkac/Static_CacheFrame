@@ -1,4 +1,4 @@
-// Last modified: 2013-04-08 02:14:11
+// Last modified: 2013-04-08 19:23:11
  
 /**
  * @file: hash.h
@@ -15,6 +15,7 @@
 typedef struct hashnode {
 	unsigned int m_key;
 	unsigned long long m_offset;
+	// offset in the cache space, in terms of int
 	unsigned int m_length;
 	struct hashnode *h_next;
 } hashnode_t;
@@ -33,8 +34,8 @@ void HT_Add(unsigned int termid,
 			unsigned long long offset,
 			unsigned int length);
 
-int existInHash(unsigned int termid);
+//int existInHash(unsigned int termid);
 
-hashnode_t *getHashNode(unsigned int termid);
+hashnode_t *HT_GetNode(unsigned int termid);
  
 #endif
