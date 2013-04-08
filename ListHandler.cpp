@@ -1,4 +1,4 @@
-// Last modified: 2013-04-08 19:47:24
+// Last modified: 2013-04-08 20:16:53
  
 /**
  * @file: ListHandler.cpp
@@ -30,7 +30,7 @@ ListHandler::ListHandler(
 	if (res != NULL)
 	{
 		SCF->update_hits_info(length);
-		pList = SCF->pStaticCache + res->m_offset;
+		pList = SCF->getCachePointer() + res->m_offset;
 	}
 	else
 	{

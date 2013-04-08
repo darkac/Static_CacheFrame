@@ -1,4 +1,4 @@
-// Last modified: 2013-04-08 02:51:58
+// Last modified: 2013-04-08 20:19:52
  
 /**
  * @file: CacheFrame.h
@@ -14,10 +14,7 @@
 #include "hash.h"
 #include "MemoryDict.h"
 
-#define POLICYNUM 4
-enum PolicyType {SCP_QTF = 0, SCP_QTFDF, SCP_IPM, SCP_BLOCK};
-extern string Policy_Name[POLICYNUM];
-const int MEMORYSIZE 1024; // in terms of Byte
+const int MEMORYSIZE 1024; // in terms of MB
 
 class SCacheFrame
 {
@@ -43,7 +40,6 @@ protected:
 public:
 	SCacheFrame(int _size, const char *_name, MemoryDict *_dict);
 	~SCacheFrame();
-	//virtual ~SCacheFrame();
 	
 	void update_hits_info(int len);
 	void update_total_info(int len);
@@ -52,10 +48,10 @@ public:
 	void print_byte_hit_ratio() const;
 	void print_io_stat() const;
 
-	virtual bool ExistInCache(const unsigned int temrid) const;
-
 	void SC_Init(int size);
 	void SC_Load(const char *name, MemoryDict *dict);
+
+	unsigned int *getCachePointer() const;
 };
 extern SCacheFrame *SCF;
  

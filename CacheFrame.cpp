@@ -1,4 +1,4 @@
-// Last modified: 2013-04-08 19:30:50
+// Last modified: 2013-04-08 20:22:41
  
 /**
  * @file: CacheFrame.cpp
@@ -15,8 +15,6 @@
 
 #include "function.h"
 #include "CacheFrame.h"
-
-string Policy_Name[POLICYNUM] = {"QTF", "QTFDF", "IPM", "BLOCK"};
 
 SCacheFrame::SCacheFrame(int _size, const char *_name, MemoryDict *_dict)
 {
@@ -86,6 +84,11 @@ SCacheFrame::~SCacheFrame()
 	HT_Free();
 }
 
+unsigned int *getCachePointer() const
+{
+	return pStaticCache;
+}
+
 void SCacheFrame::update_hits_info(int len)
 {
 	term_hits++;
@@ -113,9 +116,4 @@ void SCacheFrame::print_byte_hit_ratio() const
 void SCacheFrame::print_io_stat() const
 {
 	printf("io_number = %f\tio_amount = %f\n", io_number, io_amount);
-}
-
-bool SCacheFrame::ExistInCache(const unsigned int termid) const
-{
-	return existInHash(termid);
 }
