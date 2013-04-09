@@ -1,4 +1,4 @@
-// Last modified: 2013-04-08 18:27:45
+// Last modified: 2013-04-08 21:05:28
  
 /**
  * @file: hash.cpp
@@ -15,12 +15,14 @@
 #include "hash.h"
 #include "function.h"
  
+hashnode_t *hashTable[MAX_HASH];
+
 void HT_Init()
 {
 	for (unsigned int i = 0; i < MAX_HASH; ++i)
 	{
 		hashTable[i] = (hashnode_t *)malloc(sizeof(hashnode_t));
-		checkPointer(hashTable[i], __LINE__);
+		checkPointer(hashTable[i], __FILE__, __LINE__);
 		memset(hashTable[i], 0, sizeof(hashnode_t));
 	}
 }
@@ -54,8 +56,8 @@ void HT_Add(unsigned int termid,
 	hnode->m_key = termid;
 	hnode->m_offset = offset;
 	hnode->m_length = length;
-	hnode->h_next = hashTable[slot]->next;
-	hashTable[slot]->next = hnode;
+	hnode->h_next = hashTable[slot]->h_next;
+	hashTable[slot]->h_next = hnode;
 }
 
 hashnode_t *HT_GetNode(unsigned int termid)

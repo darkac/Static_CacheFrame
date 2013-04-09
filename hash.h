@@ -1,4 +1,4 @@
-// Last modified: 2013-04-08 19:23:11
+// Last modified: 2013-04-08 21:04:06
  
 /**
  * @file: hash.h
@@ -19,7 +19,7 @@ typedef struct hashnode {
 	unsigned int m_length;
 	struct hashnode *h_next;
 } hashnode_t;
-//extern hashnode_t *hashTable[MAX_HASH];
+extern hashnode_t *hashTable[MAX_HASH];
 
 inline int HashKey(const unsigned int key)
 {
