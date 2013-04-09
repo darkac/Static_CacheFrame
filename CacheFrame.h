@@ -1,4 +1,4 @@
-// Last modified: 2013-04-08 20:19:52
+// Last modified: 2013-04-09 16:49:30
  
 /**
  * @file: CacheFrame.h
@@ -14,12 +14,12 @@
 #include "hash.h"
 #include "MemoryDict.h"
 
-const int MEMORYSIZE 1024; // in terms of MB
+const int MEMORYSIZE = 1024; // in terms of MB
 
 class SCacheFrame
 {
 protected:
-	PolicyType policy_name;
+	//PolicyType policy_name;
 
 	unsigned long long cacheCapacity; // in terms of int
 	unsigned long long cacheUnUsed;   // in terms of int

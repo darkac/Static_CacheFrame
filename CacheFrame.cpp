@@ -1,4 +1,4 @@
-// Last modified: 2013-04-08 20:22:41
+// Last modified: 2013-04-08 21:10:03
  
 /**
  * @file: CacheFrame.cpp
@@ -31,7 +31,7 @@ void SCacheFrame::SC_Init(int size)
 {
 	HT_Init();
 
-	cacheCapacity = (unsigned long long)_size * 1024 * 1024 / sizeof(int);
+	cacheCapacity = (unsigned long long)size * 1024 * 1024 / sizeof(int);
 	//cacheUnUsed = cacheCapacity;
 
 	pStaticCache = (unsigned int *)malloc(cacheCapacity * sizeof(int));
@@ -51,6 +51,7 @@ void SCacheFrame::SC_Load(const char *name, MemoryDict *dict)
 	FILE *fDict = fopen(pathname, "r");
 	checkResource(fDict, pathname);
 	
+	char line[64];
 	unsigned termid, fre, len;
 	while (fgets(line, sizeof(line), fDict) != NULL && 
 			GlobalOffset < cacheCapacity)
@@ -84,7 +85,7 @@ SCacheFrame::~SCacheFrame()
 	HT_Free();
 }
 
-unsigned int *getCachePointer() const
+unsigned int* SCacheFrame::getCachePointer() const
 {
 	return pStaticCache;
 }
