@@ -1,4 +1,4 @@
-// Last modified: 2013-04-07 20:08:48
+// Last modified: 2013-04-08 21:05:41
  
 /**
  * @file: function.cpp
@@ -15,7 +15,7 @@
 
 #include "function.h"
 
-void checkPointer(void *p, const char *filename, const int line);
+void checkPointer(void *p, const char *filename, const int line)
 {
 	if (p == NULL)
 	{
