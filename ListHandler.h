@@ -1,4 +1,4 @@
-// Last modified: 2013-04-08 21:08:19
+// Last modified: 2013-04-09 23:06:52
  
 /**
  * @file: ListHandler.h
@@ -13,6 +13,9 @@
 #include "hash.h"
 #include "MemoryDict.h"
 #include "CacheFrame.h"
+#include <pthread.h>
+
+extern pthread_mutex_t sr_mutex; // mutex for [seek + read] combined operation
 
 class ListHandler
 {

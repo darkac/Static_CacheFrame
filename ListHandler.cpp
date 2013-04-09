@@ -1,4 +1,4 @@
-// Last modified: 2013-04-09 21:59:10
+// Last modified: 2013-04-09 23:07:00
  
 /**
  * @file: ListHandler.cpp
@@ -36,9 +36,12 @@ ListHandler::ListHandler(
 	else
 	{
 		pList = (unsigned int *)malloc(length * sizeof(unsigned int));
+		checkPointer(pList, __FILE__, __LINE__);
 		
+		pthread_mutex_lock(&sr_mutex);
 		fseek(pIndex, offset, SEEK_SET);
 		size_t nread = fread(pList, sizeof(unsigned int), length, pIndex);
+		pthread_mutex_unlock(&sr_mutex);
 		assert(static_cast<unsigned int>(nread) == length);
 		// do not need to insert into the HashTable
 		IsFetch = 1;
