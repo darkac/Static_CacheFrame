@@ -1,4 +1,4 @@
-// Last modified: 2013-04-08 21:07:51
+// Last modified: 2013-04-09 21:59:10
  
 /**
  * @file: ListHandler.cpp
@@ -24,7 +24,6 @@ ListHandler::ListHandler(
 	termid = _termid;
 	length = _item.m_nFreq;
 	offset = _item.m_nOffset;
-	pList = NULL;
 	IsFetch = 0;
 
 	SCF->update_total_info(length);
@@ -36,13 +35,14 @@ ListHandler::ListHandler(
 	}
 	else
 	{
+		pList = (unsigned int *)malloc(length * sizeof(unsigned int));
+		
 		fseek(pIndex, offset, SEEK_SET);
-		size_t nread = fread(pList, sizeof(int), length, pIndex);
+		size_t nread = fread(pList, sizeof(unsigned int), length, pIndex);
 		assert(static_cast<unsigned int>(nread) == length);
 		// do not need to insert into the HashTable
 		IsFetch = 1;
 	}
-	assert(pList != NULL);
 }
 
 ListHandler::~ListHandler()
