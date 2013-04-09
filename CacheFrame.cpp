@@ -1,4 +1,4 @@
-// Last modified: 2013-04-08 21:10:03
+// Last modified: 2013-04-09 20:23:58
  
 /**
  * @file: CacheFrame.cpp
@@ -56,12 +56,12 @@ void SCacheFrame::SC_Load(const char *name, MemoryDict *dict)
 	while (fgets(line, sizeof(line), fDict) != NULL && 
 			GlobalOffset < cacheCapacity)
 	{
-		sscanf(line, "%u %u %u", &termid, &fre, &len);
+		sscanf(line, "%u %u %u\n", &termid, &fre, &len);
 		if (GlobalOffset + len > cacheCapacity)
 			break;
 		
 		unsigned int length = dict->m_vecDict[termid].m_nFreq;
-		unsigned long long offset = dict->m_vecDict[termid].m_nFreq;
+		unsigned long long offset = dict->m_vecDict[termid].m_nOffset;
 		assert(len == length);
 		fseek(pIndex, offset, SEEK_SET);
 		size_t nread = fread(pStaticCache + GlobalOffset, sizeof(int), length, pIndex);
