@@ -1,4 +1,4 @@
-// Last modified: 2013-04-08 20:56:56
+// Last modified: 2013-04-08 21:07:51
  
 /**
  * @file: ListHandler.cpp
@@ -53,12 +53,12 @@ ListHandler::~ListHandler()
 		pList = NULL;
 }
 
-ListHandler::GetItem(unsigned int itemID)
+int ListHandler::GetItem(unsigned int itemID)
 {
 	return pList[itemID];
 }
 
-ListHandler::GetLength()
+unsigned int ListHandler::GetLength()
 {
 	return length;
 }

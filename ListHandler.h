@@ -1,4 +1,4 @@
-// Last modified: 2013-04-08 19:45:46
+// Last modified: 2013-04-08 21:08:19
  
 /**
  * @file: ListHandler.h
@@ -25,13 +25,13 @@ private:
 public:
 	ListHandler(
 			unsigned _termid,
-			DictItem _item)
+			DictItem _item);
 			//SCacheFrame *SCF);
 	~ListHandler();
 
 	int GetItem(unsigned int itemID);
 
-	unsigned long long GetLength();
+	unsigned int GetLength();
 };
  
 #endif
