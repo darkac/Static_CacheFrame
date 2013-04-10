@@ -1,4 +1,4 @@
-// Last modified: 2013-04-09 16:49:30
+// Last modified: 2013-04-10 20:04:41
  
 /**
  * @file: CacheFrame.h
@@ -11,6 +11,7 @@
 #define _CACHEFRAME_H_
  
 #include <string>
+#include <pthread.h>
 #include "hash.h"
 #include "MemoryDict.h"
 
@@ -19,7 +20,7 @@ const int MEMORYSIZE = 1024; // in terms of MB
 class SCacheFrame
 {
 protected:
-	//PolicyType policy_name;
+	pthread_mutex_t cache_stat_mutex;
 
 	unsigned long long cacheCapacity; // in terms of int
 	unsigned long long cacheUnUsed;   // in terms of int
@@ -52,6 +53,9 @@ public:
 	void SC_Load(const char *name, MemoryDict *dict);
 
 	unsigned int *getCachePointer() const;
+	
+	void scf_lock_mutex();
+	void scf_unlock_mutex();
 };
 extern SCacheFrame *SCF;
  

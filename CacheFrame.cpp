@@ -1,4 +1,4 @@
-// Last modified: 2013-04-09 20:23:58
+// Last modified: 2013-04-10 20:04:50
  
 /**
  * @file: CacheFrame.cpp
@@ -117,4 +117,14 @@ void SCacheFrame::print_byte_hit_ratio() const
 void SCacheFrame::print_io_stat() const
 {
 	printf("io_number = %f\tio_amount = %f\n", io_number, io_amount);
+}
+
+void SCacheFrame::scf_lock_mutex()
+{
+	pthread_mutex_lock(&cache_stat_mutex);
+}
+
+void SCacheFrame::scf_unlock_mutex()
+{
+	pthread_mutex_unlock(&cache_stat_mutex);
 }

@@ -1,4 +1,4 @@
-// Last modified: 2013-04-10 15:48:59
+// Last modified: 2013-04-10 20:06:19
  
 /**
  * @file: ListHandler.cpp
@@ -28,11 +28,17 @@ ListHandler::ListHandler(
 	offset = _item.m_nOffset;
 	IsFetch = 0;
 
+	SCF->scf_lock_mutex();
 	SCF->update_total_info(length);
+	SCF->scf_unlock_mutex();
+	
 	hashnode_t *res = HT_GetNode(termid);
 	if (res != NULL)
 	{
+		SCF->scf_lock_mutex();
 		SCF->update_hits_info(length);
+		SCF->scf_unlock_mutex();
+		
 		pList = SCF->getCachePointer() + res->m_offset;
 	}
 	else
