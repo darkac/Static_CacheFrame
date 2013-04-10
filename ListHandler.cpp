@@ -1,4 +1,4 @@
-// Last modified: 2013-04-09 23:07:00
+// Last modified: 2013-04-10 15:48:59
  
 /**
  * @file: ListHandler.cpp
@@ -15,6 +15,8 @@
 
 #include "function.h"
 #include "ListHandler.h"
+
+pthread_mutex_t sr_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 ListHandler::ListHandler(
 		unsigned _termid,

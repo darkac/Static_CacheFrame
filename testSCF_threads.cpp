@@ -1,4 +1,4 @@
-// Last modified: 2013-04-09 23:13:06
+// Last modified: 2013-04-10 15:49:09
  
 /**
  * @file: testSCF_threads.cpp
@@ -26,7 +26,7 @@ FILE *pIndex;
 MemoryDict dict;
 SCacheFrame *SCF;
 pthread_mutex_t ot_mutex = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t sr_mutex = PTHREAD_MUTEX_INITIALIZER;
+//pthread_mutex_t sr_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 void LoadDict()
 {
