@@ -1,4 +1,4 @@
-// Last modified: 2013-04-10 20:04:50
+// Last modified: 2013-04-11 11:01:31
  
 /**
  * @file: CacheFrame.cpp
@@ -25,6 +25,12 @@ SCacheFrame::SCacheFrame(int _size, const char *_name, MemoryDict *_dict)
 	printf("finish load cache ... \
 			term count = %d, GlobalOffset = %llu, capacity = %llu, left = %llu\n",
 			term_count, GlobalOffset, cacheCapacity, cacheCapacity - GlobalOffset);
+
+	if (pthread_mutex_init(&cache_stat_mutex, NULL) != 0)
+	{
+		printf("cache_stat_mutex init failed.\n");
+		exit(-1);
+	}
 }
 
 void SCacheFrame::SC_Init(int size)
@@ -83,6 +89,8 @@ SCacheFrame::~SCacheFrame()
 
 	freeResource(pStaticCache);
 	HT_Free();
+
+	pthread_mutex_destroy(&cache_stat_mutex);
 }
 
 unsigned int* SCacheFrame::getCachePointer() const
