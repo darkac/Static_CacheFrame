@@ -1,4 +1,4 @@
-// Last modified: 2013-04-07 20:07:19
+// Last modified: 2013-04-24 16:49:00
  
 /**
  * @file: function.h
@@ -15,7 +15,7 @@
 
 #include <cstdio>
 
-extern FILE *pIndex;
+extern int fIndex;
 
 void checkPointer(void *p, const char *filename, const int line);
 

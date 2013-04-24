@@ -1,4 +1,4 @@
-// Last modified: 2013-04-11 11:01:31
+// Last modified: 2013-04-24 20:16:31
  
 /**
  * @file: CacheFrame.cpp
@@ -69,9 +69,33 @@ void SCacheFrame::SC_Load(const char *name, MemoryDict *dict)
 		unsigned int length = dict->m_vecDict[termid].m_nFreq;
 		unsigned long long offset = dict->m_vecDict[termid].m_nOffset;
 		assert(len == length);
-		fseek(pIndex, offset, SEEK_SET);
-		size_t nread = fread(pStaticCache + GlobalOffset, sizeof(int), length, pIndex);
-		assert(static_cast<unsigned int>(nread) == length);
+		
+		unsigned long long read_oft = offset - offset % BYTE_PER_BLOCK; // in terms of byte
+		// read_oft : the value passed to lseek(), which is aligned with 512
+		
+		unsigned long long oft_in_block = offset - read_oft; // in terms of byte
+		// the required data begins at this address: (char *)&pTemp + oft_in_block
+		
+		int byte_in_1st_block = BYTE_PER_BLOCK - oft_in_block; // in terms of byte
+		unsigned int block_num = ((length << 2) - byte_in_1st_block + BYTE_PER_BLOCK - 1) / BYTE_PER_BLOCK + 1;
+		// block_num : the number of blocks that should be read
+		
+		unsigned int *pTemp;
+		int ret = posix_memalign((void **)&pTemp, 512, block_num * BYTE_PER_BLOCK);
+		if (ret) {
+			fprintf (stderr, "posix_memalign: %s\n", strerror (ret));
+			exit(-1);
+		}
+		
+		lseek(fIndex, read_oft, SEEK_SET);
+		size_t nread = read(fIndex, pTemp, block_num * BYTE_PER_BLOCK);
+		assert(static_cast<unsigned int>(nread) == block_num * BYTE_PER_BLOCK);
+		// Note that {block_num * BYTE_PER_BLOCK >= length * sizeof(int)}
+		
+		memcpy(pStaticCache + GlobalOffset, pTemp + (oft_in_block >> 2), length * sizeof(int));
+		// Note that the type of 'pTemp' is unsigned int *,
+		// while 'oft_in_block' is counted in terms of byte
+		freeResource(pTemp);
 		
 		HT_Add(termid, GlobalOffset, len);
 		
