@@ -1,7 +1,7 @@
 Static_CacheFrame
 =================
 
-A Framework for Static Caching in Web Search Engines.
+A Framework for Static Caching in Web Search Engines (DIRECT_IO is applied to bypass the OS buffer).
 
 Usage:
 
