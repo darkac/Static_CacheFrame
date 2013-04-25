@@ -1,4 +1,4 @@
-// Last modified: 2013-04-24 17:21:05
+// Last modified: 2013-04-25 20:53:03
  
 /**
  * @file: CacheFrame.h
@@ -16,7 +16,7 @@
 #include "MemoryDict.h"
 
 const int MEMORYSIZE = 1024; // in terms of MB
-const int BYTE_PER_BLOCK = 512;
+const int BYTE_PER_BLOCK = 4096;
 
 class SCacheFrame
 {
