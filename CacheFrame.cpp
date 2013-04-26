@@ -1,4 +1,4 @@
-// Last modified: 2013-04-24 20:16:31
+// Last modified: 2013-04-26 15:32:58
  
 /**
  * @file: CacheFrame.cpp
@@ -12,6 +12,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <cassert>
+#include <sys/stat.h>
 
 #include "function.h"
 #include "CacheFrame.h"
@@ -56,7 +57,16 @@ void SCacheFrame::SC_Load(const char *name, MemoryDict *dict)
 	snprintf(pathname, sizeof(pathname), "data/%s.dict", name);
 	FILE *fDict = fopen(pathname, "r");
 	checkResource(fDict, pathname);
-	
+
+	struct stat sb;
+	if (fstat(fIndex, &sb) == -1)
+	{
+		fprintf (stderr, "fstat: failed\n");
+		exit(-1);
+	}
+	unsigned long long index_size = static_cast<unsigned long long>(sb.st_size);
+	// sb.st_size is the size of the index file, in bytes
+
 	char line[64];
 	unsigned termid, fre, len;
 	while (fgets(line, sizeof(line), fDict) != NULL && 
@@ -80,17 +90,26 @@ void SCacheFrame::SC_Load(const char *name, MemoryDict *dict)
 		unsigned int block_num = ((length << 2) - byte_in_1st_block + BYTE_PER_BLOCK - 1) / BYTE_PER_BLOCK + 1;
 		// block_num : the number of blocks that should be read
 		
+		unsigned long long bytes_to_read = block_num * BYTE_PER_BLOCK;
+
 		unsigned int *pTemp;
-		int ret = posix_memalign((void **)&pTemp, 512, block_num * BYTE_PER_BLOCK);
+		int ret = posix_memalign((void **)&pTemp, 512, bytes_to_read);
 		if (ret) {
 			fprintf (stderr, "posix_memalign: %s\n", strerror (ret));
 			exit(-1);
 		}
 		
 		lseek(fIndex, read_oft, SEEK_SET);
-		size_t nread = read(fIndex, pTemp, block_num * BYTE_PER_BLOCK);
-		assert(static_cast<unsigned int>(nread) == block_num * BYTE_PER_BLOCK);
+		size_t nread = read(fIndex, pTemp, bytes_to_read);
+		//assert(static_cast<unsigned int>(nread) == block_num * BYTE_PER_BLOCK);
 		// Note that {block_num * BYTE_PER_BLOCK >= length * sizeof(int)}
+		
+		// Note that if the termid is in the end of the index file,
+		// the bytes actually read ('nread') might be less than bytes_to_read
+		if ((index_size - read_oft) >= bytes_to_read)
+			assert(static_cast<unsigned int>(nread) == bytes_to_read);
+		else
+			assert(static_cast<unsigned int>(nread) == (index_size - read_oft));
 		
 		memcpy(pStaticCache + GlobalOffset, pTemp + (oft_in_block >> 2), length * sizeof(int));
 		// Note that the type of 'pTemp' is unsigned int *,
